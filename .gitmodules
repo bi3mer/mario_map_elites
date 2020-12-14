@@ -1,0 +1,3 @@
+[submodule "mario_vglc_grammars"]
+	path = mario_vglc_grammars
+	url = https://github.com/bi3mer/mario_vglc_grammars.git

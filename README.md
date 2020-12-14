@@ -11,3 +11,21 @@ cd mario_vglc_grammars
 git submodule init
 git submodule update
 ```
+
+## Running
+
+To build dataset for map-elites:
+
+```bash
+python run.py
+```
+
+To build a graph to examine the results:
+
+```bash
+python graph.py
+```
+
+## Details
+
+To be added at a future date. Need to discuss the operators.

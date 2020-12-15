@@ -18,11 +18,11 @@ strand_size = 25
 max_length = 30
 start_population_size = 500
 # iterations = 10000000
-# iterations = 10000000
-iterations = 1000
+iterations = 1000000
+# iterations = 1000
 resolution = 50
 mutation_rate = 0.02
-seed = 0
+seed = None
 
 # =================== Set Up Data Storage ===================
 if not os.path.isdir('data'):
@@ -43,7 +43,7 @@ else:
 
 # =================== Grammar Training ===================
 levels = [get_single_super_mario_bros('mario-1-1.txt')]
-# levels = [get_super_mario_bros()]
+levels = get_super_mario_bros()
 unigram = UniGram()
 gram = NGram(grammar_size)
 

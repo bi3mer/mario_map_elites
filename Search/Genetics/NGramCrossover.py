@@ -23,7 +23,8 @@ class NGramCrossover:
             cross_over_point = max(self.gram.n + 1, cross_over_point)
 
             p_1 = generate_from_start_to_end(
-                self.gram, parent_1[:cross_over_point], 
+                self.gram, 
+                parent_1[:cross_over_point], 
                 parent_2[cross_over_point:], 
                 self.min_length)
 

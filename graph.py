@@ -19,7 +19,7 @@ f.close()
 matrix = [[np.nan for _ in range(resolution)] for __ in range(resolution)]
 for row in content:
     split_line = row.strip().split(',')
-    matrix[int(split_line[0])][int(split_line[1])] = float(split_line[2])
+    matrix[int(split_line[1])][int(split_line[0])] = float(split_line[2])
 matrix = np.array(matrix)
 
 mask = np.zeros_like(matrix)

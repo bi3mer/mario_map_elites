@@ -17,12 +17,12 @@ min_path_length = 3
 strand_size = 25
 max_length = 30
 start_population_size = 500
-# iterations = 10000000
-iterations = 1000000
+iterations = 10000000
+# iterations = 1000000
 # iterations = 1000
 resolution = 50
 mutation_rate = 0.02
-seed = None
+seed = 0
 
 # =================== Set Up Data Storage ===================
 if not os.path.isdir('data'):

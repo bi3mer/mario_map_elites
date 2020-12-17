@@ -1,15 +1,11 @@
-from random import seed,  sample
-from math import floor
-
 from mario_vglc_grammars.Utility import update_progress
+from random import seed, sample
+from math import floor
 
 class MapElites:
     '''
     This is the more basic form of map-elites without resolution switching,
     parallel execution, etc.
-
-    NOTE: change the mutation to instead use a uni-gram rather than the array
-    of arrays. 
     '''
     __slots__ = [
         'feature_descriptors', 'feature_dimensions',  'resolution', 'performance', 
@@ -28,10 +24,9 @@ class MapElites:
         self.performance = performance
         self.start_population_size = start_population_size
         self.population_generator = population_generator
-        self.mutator = mutator
         self.crossover = crossover
+        self.mutator = mutator
         self.bins = None
-        self.keys = None
 
         if seed != None:
             seed(rng_seed)
@@ -52,7 +47,7 @@ class MapElites:
 
             update_progress(i / iterations)
 
-        update_progress(1)
+        update_progress(1.0)
 
     def __add_to_bins(self, strand):
         '''
@@ -85,10 +80,12 @@ class MapElites:
         else:
             current_fitness_score = self.bins[feature_vector][0]
 
-            if self.minimize_performance and fitness > current_fitness_score:
+            if self.minimize_performance:
+                if fitness < current_fitness_score:
+                    self.bins[feature_vector][0] = fitness
+                    self.bins[feature_vector][1] = strand
+            elif fitness > current_fitness_score:
                 self.bins[feature_vector][0] = fitness
                 self.bins[feature_vector][1] = strand
-            elif fitness <   current_fitness_score:
-                self.bins[feature_vector][0] = fitness
-                self.bins[feature_vector][1] = strand
+
 

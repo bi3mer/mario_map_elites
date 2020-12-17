@@ -18,8 +18,8 @@ strand_size = 25
 max_length = 30
 start_population_size = 500
 iterations = 10000000
-# iterations = 1000000
-# iterations = 1000
+# iterations = 100000
+# iterations = 100000
 resolution = 50
 mutation_rate = 0.02
 seed = 0
@@ -72,7 +72,7 @@ crossover = NGramCrossover(gram, 0, max_length).operate
 bad_transition_performance = lambda lvl: bad_transitions(lvl, gram)
 
 fitness = percent_playable
-minimize_performance = True
+minimize_performance = False
 
 me = MapElites(
     start_population_size, 

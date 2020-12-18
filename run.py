@@ -1,5 +1,5 @@
 from mario_vglc_grammars.Fitness import bad_transitions, linearity, leniency, max_linearity, percent_playable
-from mario_vglc_grammars.Utility import columns_into_rows
+from mario_vglc_grammars.Utility import columns_into_level_string
 from mario_vglc_grammars.Grammar import NGram, UniGram
 from mario_vglc_grammars.IO import *
 from Search import MapElites
@@ -19,7 +19,7 @@ max_length = 30
 start_population_size = 500
 iterations = 10000000
 # iterations = 100000
-# iterations = 100000
+# iterations = 10000
 resolution = 50
 mutation_rate = 0.02
 seed = 0
@@ -98,7 +98,7 @@ for i, key in enumerate(me.bins.keys()):
     writer.writerow(list(key) + [me.bins[key][0]])
 
     level_file = open(os.path.join(level_path, f'{i}.txt'), 'w')
-    level_file.write(columns_into_rows(me.bins[key][1]))
+    level_file.write(columns_into_level_string(me.bins[key][1]))
     level_file.close()
 
 f.close()

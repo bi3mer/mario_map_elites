@@ -1,3 +1,4 @@
+from mario_vglc_grammars.Fitness.Playability import naive_percent_playable
 from mario_vglc_grammars.Fitness import bad_transitions, linearity, leniency, max_linearity, percent_playable
 from mario_vglc_grammars.Utility import columns_into_level_string
 from mario_vglc_grammars.Grammar import NGram, UniGram
@@ -19,10 +20,13 @@ max_length = 30
 start_population_size = 500
 iterations = 10000000
 # iterations = 100000
-# iterations = 10000
+# iterations = 1000
 resolution = 50
 mutation_rate = 0.02
 seed = 0
+
+percent_performance_switch = 1/1000
+minimize_performance = False
 
 # =================== Set Up Data Storage ===================
 if not os.path.isdir('data'):
@@ -69,17 +73,14 @@ population_generator = NGramPopulationGenerator(gram, start_sequence, strand_siz
 mutator = NGramMutate(mutation_rate, gram, max_length).mutate
 crossover = NGramCrossover(gram, 0, max_length).operate
 
-bad_transition_performance = lambda lvl: bad_transitions(lvl, gram)
-
-fitness = percent_playable
-minimize_performance = False
-
 me = MapElites(
     start_population_size, 
     feature_descriptors, 
     feature_dimensions, 
-    resolution, 
-    fitness, 
+    resolution,
+    naive_percent_playable,
+    percent_playable,
+    percent_performance_switch, 
     minimize_performance, 
     population_generator, 
     mutator, 

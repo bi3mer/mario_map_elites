@@ -20,12 +20,12 @@ max_length = 30
 start_population_size = 500
 iterations = 10000000
 # iterations = 100000
-# iterations = 1000
+# iterations = 10000
 resolution = 50
 mutation_rate = 0.02
 seed = 0
 
-percent_performance_switch = 1/1000
+percent_performance_switch = 1 - (1/2000)
 minimize_performance = False
 
 # =================== Set Up Data Storage ===================
@@ -73,13 +73,31 @@ population_generator = NGramPopulationGenerator(gram, start_sequence, strand_siz
 mutator = NGramMutate(mutation_rate, gram, max_length).mutate
 crossover = NGramCrossover(gram, 0, max_length).operate
 
+def slow_fitness(columns):
+    columns.insert(0, 'X-------------')
+    columns.insert(0, 'X-------------')
+    fitness = percent_playable(columns, (1, 1, -1),)
+    columns.pop(0)
+    columns.pop(0)
+
+    return fitness
+
+def fast_fitness(columns):
+    columns.insert(0, 'X-------------')
+    columns.insert(0, 'X-------------')
+    fitness = naive_percent_playable(columns)
+    columns.pop(0)
+    columns.pop(0)
+
+    return fitness
+
 me = MapElites(
     start_population_size, 
     feature_descriptors, 
     feature_dimensions, 
     resolution,
-    naive_percent_playable,
-    percent_playable,
+    fast_fitness,
+    slow_fitness,
     percent_performance_switch, 
     minimize_performance, 
     population_generator, 

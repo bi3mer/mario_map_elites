@@ -39,7 +39,6 @@ class MapElites:
         have_switched = False
         
         print('initializing population...')
-        total_iterations = fast_iterations + slow_iterations
         for i, strand in enumerate(self.population_generator(self.start_population_size)):
             self.__add_to_bins(strand, self.fast_performance)
             update_progress(i / fast_iterations)

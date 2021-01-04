@@ -1,5 +1,5 @@
 from mario_vglc_grammars.Fitness.Playability import naive_percent_playable
-from mario_vglc_grammars.Fitness import bad_transitions, linearity, leniency, max_linearity, percent_playable
+from mario_vglc_grammars.Fitness import linearity, leniency, max_linearity, percent_playable
 from mario_vglc_grammars.Utility import columns_into_level_string
 from mario_vglc_grammars.Grammar import NGram, UniGram
 from mario_vglc_grammars.IO import *
@@ -18,8 +18,7 @@ min_path_length = 3
 strand_size = 25
 max_length = 30
 start_population_size = 500
-# fast_iterations = 10000000
-fast_iterations = 10000
+fast_iterations = 10000000
 slow_iterations = 2000
 resolution = 50
 mutation_rate = 0.02

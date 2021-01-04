@@ -36,7 +36,6 @@ class MapElites:
     def run(self, fast_iterations, slow_iterations):
         self.bins = {} 
         self.keys = set()
-        have_switched = False
         
         print('initializing population...')
         for i, strand in enumerate(self.population_generator(self.start_population_size)):

@@ -15,8 +15,8 @@ class MapElites:
 
     def __init__(
         self, start_population_size, feature_descriptors, feature_dimensions, 
-        resolution, fast_performance, slow_performance, percent_performance_switch,
-        minimize_performance, population_generator, mutator, crossover, rng_seed=None):
+        resolution, fast_performance, slow_performance, minimize_performance, 
+        population_generator, mutator, crossover, rng_seed=None):
 
         self.minimize_performance = minimize_performance
         self.feature_descriptors = feature_descriptors
@@ -24,7 +24,6 @@ class MapElites:
         self.resolution = 100 / resolution # view __add_to_bins comments
         self.fast_performance = fast_performance
         self.slow_performance = slow_performance
-        self.percent_performacne_switch = percent_performance_switch
         self.start_population_size = start_population_size
         self.population_generator = population_generator
         self.crossover = crossover
@@ -34,35 +33,42 @@ class MapElites:
         if seed != None:
             seed(rng_seed)
 
-    def run(self, iterations):
+    def run(self, fast_iterations, slow_iterations):
         self.bins = {} 
         self.keys = set()
         have_switched = False
         
         print('initializing population...')
-        for strand in self.population_generator(self.start_population_size):
+        total_iterations = fast_iterations + slow_iterations
+        for i, strand in enumerate(self.population_generator(self.start_population_size)):
             self.__add_to_bins(strand, self.fast_performance)
+            update_progress(i / fast_iterations)
 
-        for i in range(self.start_population_size, iterations):
-            percent_complete = i / iterations
+        # fast iterations
+        for i in range(self.start_population_size, fast_iterations):
             parent_1 = self.bins[sample(self.keys, 1)[0]][1]
             parent_2 = self.bins[sample(self.keys, 1)[0]][1]
 
             for strand in self.crossover(parent_1, parent_2):
-                if percent_complete > self.percent_performacne_switch:
-                    if have_switched == False:
-                        # update all the bins with the new performance
-                        for key in self.keys:
-                            _, strand = self.bins[key]
-                            self.bins[key][0] = self.slow_performance(strand) 
+                self.__add_to_bins(self.mutator(strand), self.fast_performance)
+                update_progress(i / fast_iterations)
 
-                        have_switched = True
+        update_progress(1)
+        
+        # switch to slow performance function
+        print('\nSwitching performance functions...\n')
+        for key in self.keys:
+            _, strand = self.bins[key]
+            self.bins[key][0] = self.slow_performance(strand) 
 
-                    self.__add_to_bins(self.mutator(strand), self.slow_performance)
-                else:
-                    self.__add_to_bins(self.mutator(strand), self.fast_performance)
+        # slow iterations
+        for i in range(slow_iterations):
+            parent_1 = self.bins[sample(self.keys, 1)[0]][1]
+            parent_2 = self.bins[sample(self.keys, 1)[0]][1]
 
-            update_progress(percent_complete)
+            for strand in self.crossover(parent_1, parent_2):
+                self.__add_to_bins(self.mutator(strand), self.slow_performance)
+                update_progress(i / slow_iterations)
 
         update_progress(1.0)
 

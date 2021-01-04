@@ -18,14 +18,13 @@ min_path_length = 3
 strand_size = 25
 max_length = 30
 start_population_size = 500
-iterations = 10000000
-# iterations = 100000
-# iterations = 10000
+# fast_iterations = 10000000
+fast_iterations = 10000
+slow_iterations = 2000
 resolution = 50
 mutation_rate = 0.02
 seed = 0
 
-percent_performance_switch = 1 - (1/2000)
 minimize_performance = False
 
 # =================== Set Up Data Storage ===================
@@ -92,21 +91,20 @@ def fast_fitness(columns):
     return fitness
 
 me = MapElites(
-    start_population_size, 
-    feature_descriptors, 
-    feature_dimensions, 
+    start_population_size,
+    feature_descriptors,
+    feature_dimensions,
     resolution,
     fast_fitness,
     slow_fitness,
-    percent_performance_switch, 
-    minimize_performance, 
-    population_generator, 
-    mutator, 
-    crossover, 
+    minimize_performance,
+    population_generator,
+    mutator,
+    crossover,
     rng_seed=seed
 )
 
-me.run(iterations)
+me.run(fast_iterations, slow_iterations)
 
 # =================== Save ===================
 f = open(os.path.join('data', 'data.csv'), 'w')

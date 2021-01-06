@@ -1,3 +1,4 @@
+from mario_vglc_grammars.Fitness.Linearity import percent_linearity
 from mario_vglc_grammars.Fitness.Playability import naive_percent_playable
 from mario_vglc_grammars.Fitness import linearity, leniency, max_linearity, percent_playable
 from mario_vglc_grammars.Utility import columns_into_level_string
@@ -19,7 +20,7 @@ strand_size = 25
 max_length = 30
 start_population_size = 500
 fast_iterations = 10000000
-slow_iterations = 2000
+slow_iterations = 10000
 resolution = 50
 mutation_rate = 0.02
 seed = 0
@@ -57,9 +58,9 @@ mutation_values = [unigram.keys for _ in repeat(None, strand_size)]
 
 # =================== Map-Elites ===================
 feature_names = ['linearity', 'leniency']
-feature_descriptors = [linearity, leniency]
+feature_descriptors = [percent_linearity, leniency]
 feature_dimensions = [
-    [0, max_linearity(strand_size, 16)], 
+    [0, 1], 
     [0, strand_size]] 
 
 population_generator = PopulationGenerator(mutation_values, strand_size).generate
